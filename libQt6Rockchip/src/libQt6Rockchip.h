@@ -1,0 +1,11 @@
+#ifndef LIBQT6ROCKCHIP_H
+#define LIBQT6ROCKCHIP_H
+
+#include <QtCore/qglobal.h>
+#if defined(LIBQT6ROCKCHIP_LIBRARY)
+#define LIBQT6ROCKCHIP_EXPORT Q_DECL_EXPORT
+#else
+#define LIBQT6ROCKCHIP_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // LIBQT6ROCKCHIP_H
