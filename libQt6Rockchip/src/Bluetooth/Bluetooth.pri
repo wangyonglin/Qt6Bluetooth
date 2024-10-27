@@ -1,13 +1,11 @@
 HEADERS += \
-    $$PWD/BluetoothConnect.h \
-    $$PWD/BluetoothPair.h \
-    $$PWD/BluetoothSearch.h \
+    $$PWD/BluetoothFinder.h \
+    $$PWD/BluetoothHandler.h \
     $$PWD/BluetoothService.h
 
 SOURCES += \
-    $$PWD/BluetoothConnect.cpp \
-    $$PWD/BluetoothPair.cpp \
-    $$PWD/BluetoothSearch.cpp \
+    $$PWD/BluetoothFinder.cpp \
+    $$PWD/BluetoothHandler.cpp \
     $$PWD/BluetoothService.cpp
 
 

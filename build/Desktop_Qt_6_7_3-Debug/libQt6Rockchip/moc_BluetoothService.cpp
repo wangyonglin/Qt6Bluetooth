@@ -8,6 +8,7 @@
 
 #include "../../../libQt6Rockchip/src/Bluetooth/BluetoothService.h"
 #include <QtCore/qmetatype.h>
+#include <QtCore/QList>
 
 #include <QtCore/qtmochelpers.h>
 
@@ -36,23 +37,16 @@ namespace {
 struct qt_meta_stringdata_CLASSQt6RockchipSCOPEBluetoothSCOPEBluetoothServiceENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSQt6RockchipSCOPEBluetoothSCOPEBluetoothServiceENDCLASS = QtMocHelpers::stringData(
     "Qt6Rockchip::Bluetooth::BluetoothService",
-    "resolve",
+    "devices",
     "",
+    "QList<QBluetoothDeviceInfo>",
+    "resolve",
     "loginfo",
     "reject",
     "logerror",
     "discovered",
     "QBluetoothDeviceInfo",
-    "deviceinfo",
-    "discovering",
-    "QLowEnergyController*",
-    "lowenergyController",
-    "QBluetoothUuid",
-    "newService",
-    "reader",
-    "QLowEnergyCharacteristic",
-    "info",
-    "value"
+    "deviceinfo"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -65,7 +59,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSQt6RockchipSCOPEBluetoothSCOPEBl
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -73,18 +67,16 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSQt6RockchipSCOPEBluetoothSCOPEBl
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,   44,    2, 0x0a,    1 /* Public */,
-       4,    1,   47,    2, 0x0a,    3 /* Public */,
-       6,    1,   50,    2, 0x0a,    5 /* Public */,
-       9,    2,   53,    2, 0x0a,    7 /* Public */,
-      14,    2,   58,    2, 0x0a,   10 /* Public */,
+       1,    1,   38,    2, 0x0a,    1 /* Public */,
+       4,    1,   41,    2, 0x0a,    3 /* Public */,
+       6,    1,   44,    2, 0x0a,    5 /* Public */,
+       8,    1,   47,    2, 0x0a,    7 /* Public */,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::QString,    3,
+    QMetaType::Void, 0x80000000 | 3,    1,
     QMetaType::Void, QMetaType::QString,    5,
-    QMetaType::Void, 0x80000000 | 7,    8,
-    QMetaType::Void, 0x80000000 | 10, 0x80000000 | 12,   11,   13,
-    QMetaType::Void, 0x80000000 | 15, QMetaType::QByteArray,   16,   17,
+    QMetaType::Void, QMetaType::QString,    7,
+    QMetaType::Void, 0x80000000 | 9,   10,
 
        0        // eod
 };
@@ -98,6 +90,9 @@ Q_CONSTINIT const QMetaObject Qt6Rockchip::Bluetooth::BluetoothService::staticMe
     qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSQt6RockchipSCOPEBluetoothSCOPEBluetoothServiceENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<BluetoothService, std::true_type>,
+        // method 'devices'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QList<QBluetoothDeviceInfo>, std::false_type>,
         // method 'resolve'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
@@ -106,15 +101,7 @@ Q_CONSTINIT const QMetaObject Qt6Rockchip::Bluetooth::BluetoothService::staticMe
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
         // method 'discovered'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<const QBluetoothDeviceInfo &, std::false_type>,
-        // method 'discovering'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QLowEnergyController *, std::false_type>,
-        QtPrivate::TypeAndForceComplete<const QBluetoothUuid &, std::false_type>,
-        // method 'reader'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<const QLowEnergyCharacteristic &, std::false_type>,
-        QtPrivate::TypeAndForceComplete<const QByteArray &, std::false_type>
+        QtPrivate::TypeAndForceComplete<const QBluetoothDeviceInfo &, std::false_type>
     >,
     nullptr
 } };
@@ -125,37 +112,27 @@ void Qt6Rockchip::Bluetooth::BluetoothService::qt_static_metacall(QObject *_o, Q
         auto *_t = static_cast<BluetoothService *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->resolve((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 1: _t->reject((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 2: _t->discovered((*reinterpret_cast< std::add_pointer_t<QBluetoothDeviceInfo>>(_a[1]))); break;
-        case 3: _t->discovering((*reinterpret_cast< std::add_pointer_t<QLowEnergyController*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QBluetoothUuid>>(_a[2]))); break;
-        case 4: _t->reader((*reinterpret_cast< std::add_pointer_t<QLowEnergyCharacteristic>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QByteArray>>(_a[2]))); break;
+        case 0: _t->devices((*reinterpret_cast< std::add_pointer_t<QList<QBluetoothDeviceInfo>>>(_a[1]))); break;
+        case 1: _t->resolve((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 2: _t->reject((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 3: _t->discovered((*reinterpret_cast< std::add_pointer_t<QBluetoothDeviceInfo>>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
-        case 2:
+        case 0:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 0:
-                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QBluetoothDeviceInfo >(); break;
+                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QList<QBluetoothDeviceInfo> >(); break;
             }
             break;
         case 3:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
-            case 1:
-                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QBluetoothUuid >(); break;
             case 0:
-                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QLowEnergyController* >(); break;
-            }
-            break;
-        case 4:
-            switch (*reinterpret_cast<int*>(_a[1])) {
-            default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
-            case 0:
-                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QLowEnergyCharacteristic >(); break;
+                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QBluetoothDeviceInfo >(); break;
             }
             break;
         }
@@ -181,13 +158,13 @@ int Qt6Rockchip::Bluetooth::BluetoothService::qt_metacall(QMetaObject::Call _c, 
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 4)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 4;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 4)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 4;
     }
     return _id;
 }

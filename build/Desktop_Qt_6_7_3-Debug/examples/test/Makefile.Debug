@@ -674,12 +674,14 @@ debug/main.o: ../../../../examples/test/main.cpp /opt/Qt/6.7.3/gcc_arm64/include
 		../../../../libQt6Rockchip/include/Qt6Rockchip/Bluetooth/BluetoothService \
 		../../../../libQt6Rockchip/src/Bluetooth/BluetoothService.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtWidgets/QWidget \
-		../../../../libQt6Rockchip/src/Bluetooth/BluetoothPair.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceInfo \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdeviceinfo.h \
+		../../../../libQt6Rockchip/src/Bluetooth/BluetoothFinder.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceDiscoveryAgent \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdevicediscoveryagent.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothglobal.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetooth-config.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothexports.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceInfo \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdeviceinfo.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothUuid \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothuuid.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QtGlobal \
@@ -687,12 +689,16 @@ debug/main.o: ../../../../examples/test/main.cpp /opt/Qt/6.7.3/gcc_arm64/include
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QUuid \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/quuid.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QDebug \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyController \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergycontroller.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothAddress \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothaddress.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QByteArray \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QString \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QTimer \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtimer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasictimer.h \
+		../../../../libQt6Rockchip/src/Bluetooth/BluetoothHandler.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyController \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergycontroller.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyAdvertisingData \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergyadvertisingdata.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyConnectionParameters \
@@ -707,15 +713,7 @@ debug/main.o: ../../../../examples/test/main.cpp /opt/Qt/6.7.3/gcc_arm64/include
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergydescriptor.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QVariantMap \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvariantmap.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QMap \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QThread \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QTimer \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtimer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasictimer.h \
-		../../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.h \
-		../../../../libQt6Rockchip/src/Bluetooth/BluetoothSearch.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceDiscoveryAgent \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdevicediscoveryagent.h
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QMap
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/main.o ../../../../examples/test/main.cpp
 
 ####### Install

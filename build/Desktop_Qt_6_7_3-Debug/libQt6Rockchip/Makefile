@@ -52,20 +52,16 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.cpp \
-		../../../libQt6Rockchip/src/Bluetooth/BluetoothPair.cpp \
-		../../../libQt6Rockchip/src/Bluetooth/BluetoothSearch.cpp \
-		../../../libQt6Rockchip/src/Bluetooth/BluetoothService.cpp moc_BluetoothConnect.cpp \
-		moc_BluetoothPair.cpp \
-		moc_BluetoothSearch.cpp \
+SOURCES       = ../../../libQt6Rockchip/src/Bluetooth/BluetoothFinder.cpp \
+		../../../libQt6Rockchip/src/Bluetooth/BluetoothHandler.cpp \
+		../../../libQt6Rockchip/src/Bluetooth/BluetoothService.cpp moc_BluetoothFinder.cpp \
+		moc_BluetoothHandler.cpp \
 		moc_BluetoothService.cpp
-OBJECTS       = BluetoothConnect.o \
-		BluetoothPair.o \
-		BluetoothSearch.o \
+OBJECTS       = BluetoothFinder.o \
+		BluetoothHandler.o \
 		BluetoothService.o \
-		moc_BluetoothConnect.o \
-		moc_BluetoothPair.o \
-		moc_BluetoothSearch.o \
+		moc_BluetoothFinder.o \
+		moc_BluetoothHandler.o \
 		moc_BluetoothService.o
 DIST          = ../../../libQt6Rockchip/README.md \
 		../../../libQt6Rockchip/include/Qt6Rockchip/Bluetooth/BluetoothService \
@@ -417,12 +413,10 @@ DIST          = ../../../libQt6Rockchip/README.md \
 		/opt/Qt/6.7.3/gcc_arm64/mkspecs/features/exceptions.prf \
 		/opt/Qt/6.7.3/gcc_arm64/mkspecs/features/yacc.prf \
 		/opt/Qt/6.7.3/gcc_arm64/mkspecs/features/lex.prf \
-		/home/neardi/libQt6Rockchip/libQt6Rockchip.pro ../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.h \
-		../../../libQt6Rockchip/src/Bluetooth/BluetoothPair.h \
-		../../../libQt6Rockchip/src/Bluetooth/BluetoothSearch.h \
-		../../../libQt6Rockchip/src/Bluetooth/BluetoothService.h ../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.cpp \
-		../../../libQt6Rockchip/src/Bluetooth/BluetoothPair.cpp \
-		../../../libQt6Rockchip/src/Bluetooth/BluetoothSearch.cpp \
+		/home/neardi/libQt6Rockchip/libQt6Rockchip.pro ../../../libQt6Rockchip/src/Bluetooth/BluetoothFinder.h \
+		../../../libQt6Rockchip/src/Bluetooth/BluetoothHandler.h \
+		../../../libQt6Rockchip/src/Bluetooth/BluetoothService.h ../../../libQt6Rockchip/src/Bluetooth/BluetoothFinder.cpp \
+		../../../libQt6Rockchip/src/Bluetooth/BluetoothHandler.cpp \
 		../../../libQt6Rockchip/src/Bluetooth/BluetoothService.cpp
 QMAKE_TARGET  = Qt6Rockchip
 DESTDIR       = 
@@ -1180,8 +1174,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt/6.7.3/gcc_arm64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.h ../../../libQt6Rockchip/src/Bluetooth/BluetoothPair.h ../../../libQt6Rockchip/src/Bluetooth/BluetoothSearch.h ../../../libQt6Rockchip/src/Bluetooth/BluetoothService.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.cpp ../../../libQt6Rockchip/src/Bluetooth/BluetoothPair.cpp ../../../libQt6Rockchip/src/Bluetooth/BluetoothSearch.cpp ../../../libQt6Rockchip/src/Bluetooth/BluetoothService.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../../libQt6Rockchip/src/Bluetooth/BluetoothFinder.h ../../../libQt6Rockchip/src/Bluetooth/BluetoothHandler.h ../../../libQt6Rockchip/src/Bluetooth/BluetoothService.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../../libQt6Rockchip/src/Bluetooth/BluetoothFinder.cpp ../../../libQt6Rockchip/src/Bluetooth/BluetoothHandler.cpp ../../../libQt6Rockchip/src/Bluetooth/BluetoothService.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -1213,331 +1207,10 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /opt/Qt/6.7.3/gcc_arm64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++1z -Wall -Wextra -dM -E -o moc_predefs.h /opt/Qt/6.7.3/gcc_arm64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_BluetoothConnect.cpp moc_BluetoothPair.cpp moc_BluetoothSearch.cpp moc_BluetoothService.cpp
+compiler_moc_header_make_all: moc_BluetoothFinder.cpp moc_BluetoothHandler.cpp moc_BluetoothService.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_BluetoothConnect.cpp moc_BluetoothPair.cpp moc_BluetoothSearch.cpp moc_BluetoothService.cpp
-moc_BluetoothConnect.cpp: ../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QObject \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobject.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobjectdefs.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qnamespace.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qglobal.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtversionchecks.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtconfiginclude.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qconfig.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtcore-config.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtconfigmacros.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtcoreexports.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompilerdetection.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qprocessordetection.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsystemdetection.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtdeprecationmarkers.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtpreprocessorsupport.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qassert.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtnoop.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtypes.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtversion.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtclasshelpermacros.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtypeinfo.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainerfwd.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsysinfo.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlogging.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qflags.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompare_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qatomic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasicatomic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qatomic_cxx11.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qgenericatomic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qyieldcpu.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qconstructormacros.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdarwinhelpers.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qexceptionhandling.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qforeach.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qttypetraits.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfunctionpointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qglobalstatic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmalloc.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qminmax.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qnumeric.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qoverload.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qswap.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtenvironmentvariables.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtresource.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qttranslation.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qversiontagging.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtmetamacros.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobjectdefs_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfunctionaltools_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstring.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qchar.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearray.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qrefcount.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydata.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qpair.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydatapointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydataops.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainertools_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qxptype_traits.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20type_traits.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20functional.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20memory.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearrayalgorithms.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearrayview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringfwd.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringliteral.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringalgorithms.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlatin1stringview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qanystringview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qutf8stringview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringtokenizer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringbuilder.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringconverter.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringconverter_base.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlist.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qhashfunctions.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiterator.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearraylist.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringlist.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qalgorithms.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringmatcher.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcoreevent.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qscopedpointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmetatype.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompare.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcomparehelpers.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdatastream.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiodevicebase.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfloat16.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmath.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiterable.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmetacontainer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainerinfo.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtaggedpointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qscopeguard.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobject_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbindingstorage.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QTimer \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtimer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasictimer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QThread \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qthread.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdeadlinetimer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qelapsedtimer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceInfo \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdeviceinfo.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothglobal.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetooth-config.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothexports.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothUuid \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothuuid.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QtGlobal \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QMetaType \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QUuid \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/quuid.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qendian.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QDebug \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdebug.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtextstream.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontiguouscache.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsharedpointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qshareddata.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsharedpointer_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmap.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qshareddata_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qset.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qhash.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvarlengtharray.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyController \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergycontroller.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothAddress \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothaddress.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QByteArray \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QString \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyAdvertisingData \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergyadvertisingdata.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyConnectionParameters \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergyconnectionparameters.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyService \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergyservice.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyCharacteristic \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergycharacteristic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QSharedPointer \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetooth.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyDescriptor \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergydescriptor.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QVariantMap \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvariantmap.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QMap \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QVariant \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvariant.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q23utility.h \
-		moc_predefs.h \
-		/opt/Qt/6.7.3/gcc_arm64/libexec/moc
-	/opt/Qt/6.7.3/gcc_arm64/libexec/moc $(DEFINES) --include /home/neardi/Project/Qt6Rockchip/build/Desktop_Qt_6_7_3-Debug/libQt6Rockchip/moc_predefs.h -I/opt/Qt/6.7.3/gcc_arm64/mkspecs/linux-g++ -I/home/neardi/Project/Qt6Rockchip/libQt6Rockchip -I/opt/Qt/6.7.3/gcc_arm64/include -I/opt/Qt/6.7.3/gcc_arm64/include/QtOpenGL -I/opt/Qt/6.7.3/gcc_arm64/include/QtWidgets -I/opt/Qt/6.7.3/gcc_arm64/include/QtGui -I/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth -I/opt/Qt/6.7.3/gcc_arm64/include/QtNetwork -I/opt/Qt/6.7.3/gcc_arm64/include/QtDBus -I/opt/Qt/6.7.3/gcc_arm64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/aarch64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/aarch64-linux-gnu/9/include -I/usr/local/include -I/usr/include/aarch64-linux-gnu -I/usr/include ../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.h -o moc_BluetoothConnect.cpp
-
-moc_BluetoothPair.cpp: ../../../libQt6Rockchip/src/Bluetooth/BluetoothPair.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QObject \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobject.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobjectdefs.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qnamespace.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qglobal.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtversionchecks.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtconfiginclude.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qconfig.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtcore-config.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtconfigmacros.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtcoreexports.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompilerdetection.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qprocessordetection.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsystemdetection.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtdeprecationmarkers.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtpreprocessorsupport.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qassert.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtnoop.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtypes.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtversion.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtclasshelpermacros.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtypeinfo.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainerfwd.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsysinfo.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlogging.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qflags.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompare_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qatomic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasicatomic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qatomic_cxx11.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qgenericatomic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qyieldcpu.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qconstructormacros.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdarwinhelpers.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qexceptionhandling.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qforeach.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qttypetraits.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfunctionpointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qglobalstatic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmalloc.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qminmax.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qnumeric.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qoverload.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qswap.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtenvironmentvariables.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtresource.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qttranslation.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qversiontagging.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtmetamacros.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobjectdefs_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfunctionaltools_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstring.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qchar.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearray.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qrefcount.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydata.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qpair.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydatapointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydataops.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainertools_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qxptype_traits.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20type_traits.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20functional.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20memory.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearrayalgorithms.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearrayview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringfwd.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringliteral.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringalgorithms.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlatin1stringview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qanystringview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qutf8stringview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringtokenizer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringbuilder.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringconverter.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringconverter_base.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlist.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qhashfunctions.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiterator.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearraylist.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringlist.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qalgorithms.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringmatcher.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcoreevent.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qscopedpointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmetatype.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompare.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcomparehelpers.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdatastream.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiodevicebase.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfloat16.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmath.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiterable.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmetacontainer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainerinfo.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtaggedpointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qscopeguard.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobject_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbindingstorage.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceInfo \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdeviceinfo.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothglobal.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetooth-config.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothexports.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothUuid \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothuuid.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QtGlobal \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QMetaType \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QUuid \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/quuid.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qendian.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QDebug \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdebug.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtextstream.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontiguouscache.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsharedpointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qshareddata.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsharedpointer_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmap.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qshareddata_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qset.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qhash.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvarlengtharray.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyController \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergycontroller.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothAddress \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothaddress.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QByteArray \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QString \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyAdvertisingData \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergyadvertisingdata.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyConnectionParameters \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergyconnectionparameters.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyService \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergyservice.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyCharacteristic \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergycharacteristic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QSharedPointer \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetooth.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyDescriptor \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergydescriptor.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QVariantMap \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvariantmap.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QMap \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QVariant \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvariant.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q23utility.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QThread \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qthread.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdeadlinetimer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qelapsedtimer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QTimer \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtimer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasictimer.h \
-		../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.h \
-		moc_predefs.h \
-		/opt/Qt/6.7.3/gcc_arm64/libexec/moc
-	/opt/Qt/6.7.3/gcc_arm64/libexec/moc $(DEFINES) --include /home/neardi/Project/Qt6Rockchip/build/Desktop_Qt_6_7_3-Debug/libQt6Rockchip/moc_predefs.h -I/opt/Qt/6.7.3/gcc_arm64/mkspecs/linux-g++ -I/home/neardi/Project/Qt6Rockchip/libQt6Rockchip -I/opt/Qt/6.7.3/gcc_arm64/include -I/opt/Qt/6.7.3/gcc_arm64/include/QtOpenGL -I/opt/Qt/6.7.3/gcc_arm64/include/QtWidgets -I/opt/Qt/6.7.3/gcc_arm64/include/QtGui -I/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth -I/opt/Qt/6.7.3/gcc_arm64/include/QtNetwork -I/opt/Qt/6.7.3/gcc_arm64/include/QtDBus -I/opt/Qt/6.7.3/gcc_arm64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/aarch64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/aarch64-linux-gnu/9/include -I/usr/local/include -I/usr/include/aarch64-linux-gnu -I/usr/include ../../../libQt6Rockchip/src/Bluetooth/BluetoothPair.h -o moc_BluetoothPair.cpp
-
-moc_BluetoothSearch.cpp: ../../../libQt6Rockchip/src/Bluetooth/BluetoothSearch.h \
+	-$(DEL_FILE) moc_BluetoothFinder.cpp moc_BluetoothHandler.cpp moc_BluetoothService.cpp
+moc_BluetoothFinder.cpp: ../../../libQt6Rockchip/src/Bluetooth/BluetoothFinder.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QObject \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobject.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobjectdefs.h \
@@ -1673,7 +1346,160 @@ moc_BluetoothSearch.cpp: ../../../libQt6Rockchip/src/Bluetooth/BluetoothSearch.h
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasictimer.h \
 		moc_predefs.h \
 		/opt/Qt/6.7.3/gcc_arm64/libexec/moc
-	/opt/Qt/6.7.3/gcc_arm64/libexec/moc $(DEFINES) --include /home/neardi/Project/Qt6Rockchip/build/Desktop_Qt_6_7_3-Debug/libQt6Rockchip/moc_predefs.h -I/opt/Qt/6.7.3/gcc_arm64/mkspecs/linux-g++ -I/home/neardi/Project/Qt6Rockchip/libQt6Rockchip -I/opt/Qt/6.7.3/gcc_arm64/include -I/opt/Qt/6.7.3/gcc_arm64/include/QtOpenGL -I/opt/Qt/6.7.3/gcc_arm64/include/QtWidgets -I/opt/Qt/6.7.3/gcc_arm64/include/QtGui -I/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth -I/opt/Qt/6.7.3/gcc_arm64/include/QtNetwork -I/opt/Qt/6.7.3/gcc_arm64/include/QtDBus -I/opt/Qt/6.7.3/gcc_arm64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/aarch64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/aarch64-linux-gnu/9/include -I/usr/local/include -I/usr/include/aarch64-linux-gnu -I/usr/include ../../../libQt6Rockchip/src/Bluetooth/BluetoothSearch.h -o moc_BluetoothSearch.cpp
+	/opt/Qt/6.7.3/gcc_arm64/libexec/moc $(DEFINES) --include /home/neardi/Project/Qt6Rockchip/build/Desktop_Qt_6_7_3-Debug/libQt6Rockchip/moc_predefs.h -I/opt/Qt/6.7.3/gcc_arm64/mkspecs/linux-g++ -I/home/neardi/Project/Qt6Rockchip/libQt6Rockchip -I/opt/Qt/6.7.3/gcc_arm64/include -I/opt/Qt/6.7.3/gcc_arm64/include/QtOpenGL -I/opt/Qt/6.7.3/gcc_arm64/include/QtWidgets -I/opt/Qt/6.7.3/gcc_arm64/include/QtGui -I/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth -I/opt/Qt/6.7.3/gcc_arm64/include/QtNetwork -I/opt/Qt/6.7.3/gcc_arm64/include/QtDBus -I/opt/Qt/6.7.3/gcc_arm64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/aarch64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/aarch64-linux-gnu/9/include -I/usr/local/include -I/usr/include/aarch64-linux-gnu -I/usr/include ../../../libQt6Rockchip/src/Bluetooth/BluetoothFinder.h -o moc_BluetoothFinder.cpp
+
+moc_BluetoothHandler.cpp: ../../../libQt6Rockchip/src/Bluetooth/BluetoothHandler.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QObject \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobject.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobjectdefs.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qnamespace.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qglobal.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtversionchecks.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtconfiginclude.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qconfig.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtcore-config.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtconfigmacros.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtcoreexports.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qprocessordetection.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsystemdetection.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtdeprecationmarkers.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtpreprocessorsupport.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qassert.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtnoop.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtypes.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtversion.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtclasshelpermacros.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtypeinfo.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsysinfo.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlogging.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qflags.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompare_impl.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qatomic.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasicatomic.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qgenericatomic.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qyieldcpu.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qconstructormacros.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdarwinhelpers.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qexceptionhandling.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qforeach.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qttypetraits.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfunctionpointer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qglobalstatic.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmalloc.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qminmax.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qnumeric.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qoverload.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qswap.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtenvironmentvariables.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtresource.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qttranslation.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qversiontagging.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtmetamacros.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfunctionaltools_impl.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstring.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qchar.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringview.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearray.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qrefcount.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydata.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qpair.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydatapointer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydataops.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainertools_impl.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qxptype_traits.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20type_traits.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20functional.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20memory.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearrayalgorithms.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearrayview.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringfwd.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringliteral.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringalgorithms.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlatin1stringview.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qanystringview.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qutf8stringview.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringtokenizer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringbuilder.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringconverter.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringconverter_base.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlist.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qhashfunctions.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiterator.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearraylist.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringlist.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qalgorithms.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringmatcher.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcoreevent.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qscopedpointer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmetatype.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompare.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcomparehelpers.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdatastream.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiodevicebase.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfloat16.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmath.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiterable.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmetacontainer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainerinfo.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtaggedpointer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qscopeguard.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobject_impl.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbindingstorage.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceInfo \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdeviceinfo.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothglobal.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetooth-config.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothexports.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothUuid \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothuuid.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QtGlobal \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QMetaType \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QUuid \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/quuid.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qendian.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QDebug \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdebug.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtextstream.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsharedpointer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qshareddata.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmap.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qshareddata_impl.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qset.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qhash.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyController \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergycontroller.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothAddress \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothaddress.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QByteArray \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QString \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyAdvertisingData \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergyadvertisingdata.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyConnectionParameters \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergyconnectionparameters.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyService \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergyservice.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyCharacteristic \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergycharacteristic.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QSharedPointer \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetooth.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyDescriptor \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergydescriptor.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QVariantMap \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvariantmap.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QMap \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QVariant \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvariant.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q23utility.h \
+		moc_predefs.h \
+		/opt/Qt/6.7.3/gcc_arm64/libexec/moc
+	/opt/Qt/6.7.3/gcc_arm64/libexec/moc $(DEFINES) --include /home/neardi/Project/Qt6Rockchip/build/Desktop_Qt_6_7_3-Debug/libQt6Rockchip/moc_predefs.h -I/opt/Qt/6.7.3/gcc_arm64/mkspecs/linux-g++ -I/home/neardi/Project/Qt6Rockchip/libQt6Rockchip -I/opt/Qt/6.7.3/gcc_arm64/include -I/opt/Qt/6.7.3/gcc_arm64/include/QtOpenGL -I/opt/Qt/6.7.3/gcc_arm64/include/QtWidgets -I/opt/Qt/6.7.3/gcc_arm64/include/QtGui -I/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth -I/opt/Qt/6.7.3/gcc_arm64/include/QtNetwork -I/opt/Qt/6.7.3/gcc_arm64/include/QtDBus -I/opt/Qt/6.7.3/gcc_arm64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/aarch64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/aarch64-linux-gnu/9/include -I/usr/local/include -I/usr/include/aarch64-linux-gnu -I/usr/include ../../../libQt6Rockchip/src/Bluetooth/BluetoothHandler.h -o moc_BluetoothHandler.cpp
 
 moc_BluetoothService.cpp: ../../../libQt6Rockchip/src/Bluetooth/BluetoothService.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtWidgets/QWidget \
@@ -1861,12 +1687,14 @@ moc_BluetoothService.cpp: ../../../libQt6Rockchip/src/Bluetooth/BluetoothService
 		/opt/Qt/6.7.3/gcc_arm64/include/QtGui/qinputmethod.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlocale.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtGui/qguiapplication_platform.h \
-		../../../libQt6Rockchip/src/Bluetooth/BluetoothPair.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceInfo \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdeviceinfo.h \
+		../../../libQt6Rockchip/src/Bluetooth/BluetoothFinder.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceDiscoveryAgent \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdevicediscoveryagent.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothglobal.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetooth-config.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothexports.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceInfo \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdeviceinfo.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothUuid \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothuuid.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QtGlobal \
@@ -1874,12 +1702,16 @@ moc_BluetoothService.cpp: ../../../libQt6Rockchip/src/Bluetooth/BluetoothService
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QUuid \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/quuid.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QDebug \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyController \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergycontroller.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothAddress \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothaddress.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QByteArray \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QString \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QTimer \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtimer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasictimer.h \
+		../../../libQt6Rockchip/src/Bluetooth/BluetoothHandler.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyController \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergycontroller.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyAdvertisingData \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergyadvertisingdata.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyConnectionParameters \
@@ -1896,14 +1728,6 @@ moc_BluetoothService.cpp: ../../../libQt6Rockchip/src/Bluetooth/BluetoothService
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvariantmap.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QMap \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QVariant \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QThread \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QTimer \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtimer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasictimer.h \
-		../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.h \
-		../../../libQt6Rockchip/src/Bluetooth/BluetoothSearch.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceDiscoveryAgent \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdevicediscoveryagent.h \
 		moc_predefs.h \
 		/opt/Qt/6.7.3/gcc_arm64/libexec/moc
 	/opt/Qt/6.7.3/gcc_arm64/libexec/moc $(DEFINES) --include /home/neardi/Project/Qt6Rockchip/build/Desktop_Qt_6_7_3-Debug/libQt6Rockchip/moc_predefs.h -I/opt/Qt/6.7.3/gcc_arm64/mkspecs/linux-g++ -I/home/neardi/Project/Qt6Rockchip/libQt6Rockchip -I/opt/Qt/6.7.3/gcc_arm64/include -I/opt/Qt/6.7.3/gcc_arm64/include/QtOpenGL -I/opt/Qt/6.7.3/gcc_arm64/include/QtWidgets -I/opt/Qt/6.7.3/gcc_arm64/include/QtGui -I/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth -I/opt/Qt/6.7.3/gcc_arm64/include/QtNetwork -I/opt/Qt/6.7.3/gcc_arm64/include/QtDBus -I/opt/Qt/6.7.3/gcc_arm64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/aarch64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/aarch64-linux-gnu/9/include -I/usr/local/include -I/usr/include/aarch64-linux-gnu -I/usr/include ../../../libQt6Rockchip/src/Bluetooth/BluetoothService.h -o moc_BluetoothService.cpp
@@ -1924,7 +1748,7 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 
 ####### Compile
 
-BluetoothConnect.o: ../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.cpp ../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.h \
+BluetoothFinder.o: ../../../libQt6Rockchip/src/Bluetooth/BluetoothFinder.cpp ../../../libQt6Rockchip/src/Bluetooth/BluetoothFinder.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QObject \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobject.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobjectdefs.h \
@@ -2025,13 +1849,164 @@ BluetoothConnect.o: ../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.cpp .
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qscopeguard.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobject_impl.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbindingstorage.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceDiscoveryAgent \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdevicediscoveryagent.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothglobal.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetooth-config.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothexports.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceInfo \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdeviceinfo.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothUuid \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothuuid.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QtGlobal \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QMetaType \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QUuid \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/quuid.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qendian.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QDebug \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdebug.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtextstream.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsharedpointer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qshareddata.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmap.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qshareddata_impl.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qset.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qhash.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothAddress \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothaddress.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QByteArray \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QString \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QTimer \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtimer.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasictimer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QThread \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qthread.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QCoreApplication \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcoreapplication.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdeadlinetimer.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qelapsedtimer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qeventloop.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qnativeinterface.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcoreapplication_platform.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfuture.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfutureinterface.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmutex.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtsan_impl.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qresultstore.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfuture_impl.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qthreadpool.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qthread.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qrunnable.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qexception.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qpromise.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvariant.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q23utility.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QPermissions \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qpermissions.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BluetoothFinder.o ../../../libQt6Rockchip/src/Bluetooth/BluetoothFinder.cpp
+
+BluetoothHandler.o: ../../../libQt6Rockchip/src/Bluetooth/BluetoothHandler.cpp ../../../libQt6Rockchip/src/Bluetooth/BluetoothHandler.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QObject \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobject.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobjectdefs.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qnamespace.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qglobal.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtversionchecks.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtconfiginclude.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qconfig.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtcore-config.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtconfigmacros.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtcoreexports.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qprocessordetection.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsystemdetection.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtdeprecationmarkers.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtpreprocessorsupport.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qassert.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtnoop.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtypes.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtversion.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtclasshelpermacros.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtypeinfo.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsysinfo.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlogging.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qflags.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompare_impl.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qatomic.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasicatomic.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qgenericatomic.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qyieldcpu.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qconstructormacros.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdarwinhelpers.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qexceptionhandling.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qforeach.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qttypetraits.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfunctionpointer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qglobalstatic.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmalloc.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qminmax.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qnumeric.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qoverload.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qswap.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtenvironmentvariables.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtresource.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qttranslation.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qversiontagging.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtmetamacros.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfunctionaltools_impl.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstring.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qchar.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringview.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearray.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qrefcount.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydata.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qpair.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydatapointer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydataops.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainertools_impl.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qxptype_traits.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20type_traits.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20functional.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20memory.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearrayalgorithms.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearrayview.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringfwd.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringliteral.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringalgorithms.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlatin1stringview.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qanystringview.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qutf8stringview.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringtokenizer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringbuilder.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringconverter.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringconverter_base.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlist.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qhashfunctions.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiterator.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearraylist.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringlist.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qalgorithms.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringmatcher.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcoreevent.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qscopedpointer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmetatype.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompare.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcomparehelpers.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdatastream.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiodevicebase.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfloat16.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmath.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiterable.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmetacontainer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainerinfo.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtaggedpointer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qscopeguard.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobject_impl.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbindingstorage.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceInfo \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdeviceinfo.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothglobal.h \
@@ -2080,302 +2055,7 @@ BluetoothConnect.o: ../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.cpp .
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QVariant \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvariant.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q23utility.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BluetoothConnect.o ../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.cpp
-
-BluetoothPair.o: ../../../libQt6Rockchip/src/Bluetooth/BluetoothPair.cpp ../../../libQt6Rockchip/src/Bluetooth/BluetoothPair.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QObject \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobject.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobjectdefs.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qnamespace.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qglobal.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtversionchecks.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtconfiginclude.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qconfig.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtcore-config.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtconfigmacros.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtcoreexports.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompilerdetection.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qprocessordetection.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsystemdetection.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtdeprecationmarkers.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtpreprocessorsupport.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qassert.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtnoop.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtypes.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtversion.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtclasshelpermacros.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtypeinfo.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainerfwd.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsysinfo.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlogging.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qflags.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompare_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qatomic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasicatomic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qatomic_cxx11.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qgenericatomic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qyieldcpu.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qconstructormacros.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdarwinhelpers.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qexceptionhandling.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qforeach.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qttypetraits.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfunctionpointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qglobalstatic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmalloc.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qminmax.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qnumeric.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qoverload.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qswap.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtenvironmentvariables.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtresource.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qttranslation.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qversiontagging.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtmetamacros.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobjectdefs_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfunctionaltools_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstring.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qchar.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearray.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qrefcount.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydata.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qpair.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydatapointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydataops.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainertools_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qxptype_traits.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20type_traits.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20functional.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20memory.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearrayalgorithms.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearrayview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringfwd.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringliteral.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringalgorithms.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlatin1stringview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qanystringview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qutf8stringview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringtokenizer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringbuilder.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringconverter.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringconverter_base.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlist.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qhashfunctions.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiterator.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearraylist.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringlist.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qalgorithms.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringmatcher.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcoreevent.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qscopedpointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmetatype.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompare.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcomparehelpers.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdatastream.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiodevicebase.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfloat16.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmath.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiterable.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmetacontainer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainerinfo.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtaggedpointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qscopeguard.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobject_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbindingstorage.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceInfo \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdeviceinfo.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothglobal.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetooth-config.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothexports.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothUuid \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothuuid.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QtGlobal \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QMetaType \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QUuid \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/quuid.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qendian.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QDebug \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdebug.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtextstream.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontiguouscache.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsharedpointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qshareddata.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsharedpointer_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmap.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qshareddata_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qset.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qhash.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvarlengtharray.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyController \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergycontroller.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothAddress \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothaddress.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QByteArray \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QString \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyAdvertisingData \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergyadvertisingdata.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyConnectionParameters \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergyconnectionparameters.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyService \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergyservice.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyCharacteristic \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergycharacteristic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QSharedPointer \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetooth.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyDescriptor \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergydescriptor.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QVariantMap \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvariantmap.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QMap \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QVariant \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvariant.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q23utility.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QThread \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qthread.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdeadlinetimer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qelapsedtimer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QTimer \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtimer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasictimer.h \
-		../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BluetoothPair.o ../../../libQt6Rockchip/src/Bluetooth/BluetoothPair.cpp
-
-BluetoothSearch.o: ../../../libQt6Rockchip/src/Bluetooth/BluetoothSearch.cpp ../../../libQt6Rockchip/src/Bluetooth/BluetoothSearch.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QObject \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobject.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobjectdefs.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qnamespace.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qglobal.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtversionchecks.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtconfiginclude.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qconfig.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtcore-config.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtconfigmacros.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtcoreexports.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompilerdetection.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qprocessordetection.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsystemdetection.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtdeprecationmarkers.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtpreprocessorsupport.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qassert.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtnoop.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtypes.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtversion.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtclasshelpermacros.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtypeinfo.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainerfwd.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsysinfo.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlogging.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qflags.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompare_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qatomic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasicatomic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qatomic_cxx11.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qgenericatomic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qyieldcpu.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qconstructormacros.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdarwinhelpers.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qexceptionhandling.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qforeach.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qttypetraits.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfunctionpointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qglobalstatic.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmalloc.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qminmax.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qnumeric.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qoverload.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qswap.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtenvironmentvariables.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtresource.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qttranslation.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qversiontagging.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtmetamacros.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobjectdefs_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfunctionaltools_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstring.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qchar.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearray.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qrefcount.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydata.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qpair.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydatapointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qarraydataops.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainertools_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qxptype_traits.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20type_traits.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20functional.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/q20memory.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearrayalgorithms.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearrayview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringfwd.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringliteral.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringalgorithms.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlatin1stringview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qanystringview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qutf8stringview.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringtokenizer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringbuilder.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringconverter.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringconverter_base.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlist.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qhashfunctions.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiterator.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbytearraylist.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringlist.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qalgorithms.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qstringmatcher.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcoreevent.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qscopedpointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmetatype.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcompare.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcomparehelpers.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdatastream.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiodevicebase.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qfloat16.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmath.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qiterable.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmetacontainer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontainerinfo.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtaggedpointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qscopeguard.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qobject_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbindingstorage.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceDiscoveryAgent \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdevicediscoveryagent.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothglobal.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetooth-config.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothexports.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceInfo \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdeviceinfo.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothUuid \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothuuid.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QtGlobal \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QMetaType \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QUuid \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/quuid.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qendian.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QDebug \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qdebug.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtextstream.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qcontiguouscache.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsharedpointer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qshareddata.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qsharedpointer_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qmap.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qshareddata_impl.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qset.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qhash.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvarlengtharray.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothAddress \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothaddress.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QByteArray \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QString \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QTimer \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtimer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasictimer.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BluetoothSearch.o ../../../libQt6Rockchip/src/Bluetooth/BluetoothSearch.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BluetoothHandler.o ../../../libQt6Rockchip/src/Bluetooth/BluetoothHandler.cpp
 
 BluetoothService.o: ../../../libQt6Rockchip/src/Bluetooth/BluetoothService.cpp ../../../libQt6Rockchip/src/Bluetooth/BluetoothService.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtWidgets/QWidget \
@@ -2563,12 +2243,14 @@ BluetoothService.o: ../../../libQt6Rockchip/src/Bluetooth/BluetoothService.cpp .
 		/opt/Qt/6.7.3/gcc_arm64/include/QtGui/qinputmethod.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qlocale.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtGui/qguiapplication_platform.h \
-		../../../libQt6Rockchip/src/Bluetooth/BluetoothPair.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceInfo \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdeviceinfo.h \
+		../../../libQt6Rockchip/src/Bluetooth/BluetoothFinder.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceDiscoveryAgent \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdevicediscoveryagent.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothglobal.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetooth-config.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qtbluetoothexports.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceInfo \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdeviceinfo.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothUuid \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothuuid.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QtGlobal \
@@ -2576,12 +2258,16 @@ BluetoothService.o: ../../../libQt6Rockchip/src/Bluetooth/BluetoothService.cpp .
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QUuid \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/quuid.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QDebug \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyController \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergycontroller.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothAddress \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothaddress.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QByteArray \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QString \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QTimer \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtimer.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasictimer.h \
+		../../../libQt6Rockchip/src/Bluetooth/BluetoothHandler.h \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyController \
+		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergycontroller.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyAdvertisingData \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qlowenergyadvertisingdata.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QLowEnergyConnectionParameters \
@@ -2597,25 +2283,14 @@ BluetoothService.o: ../../../libQt6Rockchip/src/Bluetooth/BluetoothService.cpp .
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QVariantMap \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qvariantmap.h \
 		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QMap \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QVariant \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QThread \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QTimer \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qtimer.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/qbasictimer.h \
-		../../../libQt6Rockchip/src/Bluetooth/BluetoothConnect.h \
-		../../../libQt6Rockchip/src/Bluetooth/BluetoothSearch.h \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/QBluetoothDeviceDiscoveryAgent \
-		/opt/Qt/6.7.3/gcc_arm64/include/QtBluetooth/qbluetoothdevicediscoveryagent.h
+		/opt/Qt/6.7.3/gcc_arm64/include/QtCore/QVariant
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BluetoothService.o ../../../libQt6Rockchip/src/Bluetooth/BluetoothService.cpp
 
-moc_BluetoothConnect.o: moc_BluetoothConnect.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_BluetoothConnect.o moc_BluetoothConnect.cpp
+moc_BluetoothFinder.o: moc_BluetoothFinder.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_BluetoothFinder.o moc_BluetoothFinder.cpp
 
-moc_BluetoothPair.o: moc_BluetoothPair.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_BluetoothPair.o moc_BluetoothPair.cpp
-
-moc_BluetoothSearch.o: moc_BluetoothSearch.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_BluetoothSearch.o moc_BluetoothSearch.cpp
+moc_BluetoothHandler.o: moc_BluetoothHandler.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_BluetoothHandler.o moc_BluetoothHandler.cpp
 
 moc_BluetoothService.o: moc_BluetoothService.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_BluetoothService.o moc_BluetoothService.cpp
