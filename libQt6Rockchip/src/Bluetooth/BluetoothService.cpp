@@ -4,14 +4,13 @@
 Qt6Rockchip::Bluetooth::BluetoothService::BluetoothService(QWidget *parent)
     : QWidget{parent}
 {
-
     bluetoothFinder= new Qt6Rockchip::Bluetooth::BluetoothFinder(this);
     connect(bluetoothFinder,&Qt6Rockchip::Bluetooth::BluetoothFinder::resolve,
             this,&Qt6Rockchip::Bluetooth::BluetoothService::resolve);
     connect(bluetoothFinder,&Qt6Rockchip::Bluetooth::BluetoothFinder::reject,
             this,&Qt6Rockchip::Bluetooth::BluetoothService::reject);
-    connect(bluetoothFinder,&Qt6Rockchip::Bluetooth::BluetoothFinder::devices,
-            this,&Qt6Rockchip::Bluetooth::BluetoothService::devices);
+    connect(bluetoothFinder,&Qt6Rockchip::Bluetooth::BluetoothFinder::refresh,
+            this,&Qt6Rockchip::Bluetooth::BluetoothService::refresh);
 
     bluetoothHandler= new Qt6Rockchip::Bluetooth::BluetoothHandler(this);
     connect(bluetoothHandler,&Qt6Rockchip::Bluetooth::BluetoothHandler::resolve,
@@ -19,31 +18,30 @@ Qt6Rockchip::Bluetooth::BluetoothService::BluetoothService(QWidget *parent)
     connect(bluetoothHandler,&Qt6Rockchip::Bluetooth::BluetoothHandler::reject,
             this,&Qt6Rockchip::Bluetooth::BluetoothService::reject);
 
-
-
-
-
-
+    connect(bluetoothHandler,&Qt6Rockchip::Bluetooth::BluetoothHandler::transmit,
+            this,&Qt6Rockchip::Bluetooth::BluetoothService::receive);
 }
 
 Qt6Rockchip::Bluetooth::BluetoothService::~BluetoothService()
 {
-
     bluetoothFinder->cleanup();
 }
 
-void Qt6Rockchip::Bluetooth::BluetoothService::selecte(const QString &name)
+void Qt6Rockchip::Bluetooth::BluetoothService::start(const QString &name,int timeout)
 {
     devicename=name;
     bluetoothFinder->search();
 }
 
-void Qt6Rockchip::Bluetooth::BluetoothService::devices(QList<QBluetoothDeviceInfo > devices)
+
+void Qt6Rockchip::Bluetooth::BluetoothService::refresh()
 {
 
-    for(QBluetoothDeviceInfo & device:devices){ 
+    for(QBluetoothDeviceInfo & device:bluetoothFinder->getBluetoothDeviceInfo()){
+        qDebug() << "发现蓝牙设备:" << device.name() << device.address();
         if(device.name().contains(devicename)){
-            bluetoothHandler->select(device);
+            bluetoothHandler->create(device);
+            bluetoothHandler->starting();
         }
     }
 }
@@ -58,11 +56,7 @@ void Qt6Rockchip::Bluetooth::BluetoothService::reject(const QString &logerror)
     qDebug()  << logerror;
 }
 
-void Qt6Rockchip::Bluetooth::BluetoothService::discovered(const QBluetoothDeviceInfo &device)
+void Qt6Rockchip::Bluetooth::BluetoothService::receive(const QByteArray &msg)
 {
-    if(device.isValid()){
-       qDebug() << "发现蓝牙设备:" << device.name() << device.address();
-    }
-
-
+    emit transmit(msg);
 }

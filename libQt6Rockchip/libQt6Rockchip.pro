@@ -2,6 +2,7 @@ TEMPLATE = lib
 QT       += core gui opengl widgets bluetooth
 CONFIG += c++11
 #QT6LIBRARY_LIBRARY
+
 include (src/Bluetooth/Bluetooth.pri)
 
 linux-g++* {
@@ -20,6 +21,8 @@ linux-g++* {
 DISTFILES += \
     README.md \
     include/Qt6Rockchip/Bluetooth/BluetoothService
+
+
 
 
 

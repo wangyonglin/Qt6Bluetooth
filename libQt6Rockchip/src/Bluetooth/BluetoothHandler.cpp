@@ -3,12 +3,16 @@
 
 
 Qt6Rockchip::Bluetooth::BluetoothHandler::BluetoothHandler(QObject *parent)
-    :QObject{parent}
+    :QObject{parent},
+    milliseconds(3000)
 {
-
+    keep_alive= new QTimer(this);
+    keep_alive->setInterval(milliseconds);
+    connect(keep_alive, &QTimer::timeout,
+            this,&Qt6Rockchip::Bluetooth::BluetoothHandler::starting);
 }
 
-void Qt6Rockchip::Bluetooth::BluetoothHandler::select(const QBluetoothDeviceInfo &localDevice)
+void Qt6Rockchip::Bluetooth::BluetoothHandler::create(const QBluetoothDeviceInfo &localdevice)
 {
 
     // Disconnect and delete old connection
@@ -17,150 +21,159 @@ void Qt6Rockchip::Bluetooth::BluetoothHandler::select(const QBluetoothDeviceInfo
         delete controller;
         controller = nullptr;
     }
-    // Create new controller and connect it if device available
-    if (localDevice.isValid()) {
-        // Make connections
-        //! [Connect-Signals-1]
-        controller = QLowEnergyController::createCentral(localDevice, this);
-        //! [Connect-Signals-1]
-        //controller->setRemoteAddressType(QLowEnergyController::PublicAddress);
-        //! [Connect-Signals-2]
-        connect(controller, &QLowEnergyController::serviceDiscovered,
-                this, &Qt6Rockchip::Bluetooth::BluetoothHandler::discovered);
-        connect(controller, &QLowEnergyController::discoveryFinished,
-                this, &Qt6Rockchip::Bluetooth::BluetoothHandler::finished);
 
+    if (localdevice.isValid()) {
+        // Make connections
+        controller = QLowEnergyController::createCentral(localdevice, this);
+        controller->setRemoteAddressType(QLowEnergyController::PublicAddress);
+        connect(controller, &QLowEnergyController::serviceDiscovered,
+                this, &Qt6Rockchip::Bluetooth::BluetoothHandler::serviceDiscovered);
+        connect(controller, &QLowEnergyController::discoveryFinished,
+                this, &Qt6Rockchip::Bluetooth::BluetoothHandler::discoveryFinished);
         connect(controller, &QLowEnergyController::errorOccurred, this,
                 [this](QLowEnergyController::Error error) {
                     Q_UNUSED(error);
-                    emit reject("Cannot connect to remote device.");
-
+                    qDebug() << "Cannot connect to remote bluetooth device.";
                 });
-        connect(controller, &QLowEnergyController::connected, this, [this]() {
-            emit resolve("Controller connected. Search services...");
-            controller->discoverServices();
-        });
-        connect(controller, &QLowEnergyController::disconnected, this, [this]() {
-            emit reject("LowEnergy controller disconnected");
+        connect(controller, &QLowEnergyController::connected,
+                this,&Qt6Rockchip::Bluetooth::BluetoothHandler::connected);
+        connect(controller, &QLowEnergyController::disconnected,
+                this,&Qt6Rockchip::Bluetooth::BluetoothHandler::disconnected);
 
-        });
 
-        // Connect
-        controller->connectToDevice();
-        //! [Connect-Signals-2]
-        emit resolve(tr("创建[%0]控制器").arg(localDevice.name()));
     }
 }
-
-void Qt6Rockchip::Bluetooth::BluetoothHandler::release()
+void Qt6Rockchip::Bluetooth::BluetoothHandler::starting(){
+    if(controller) controller->connectToDevice();
+}
+void Qt6Rockchip::Bluetooth::BluetoothHandler::stop()
 {
     controller->disconnectFromDevice();
 }
 
-void Qt6Rockchip::Bluetooth::BluetoothHandler::discovered(const QBluetoothUuid &gatt)
-{
 
-    qDebug() <<"UUID"<< gatt.toString();
-   if (gatt == QBluetoothUuid(QBluetoothUuid::ServiceClassUuid::HeartRate)) {
-       emit resolve("Heart Rate service discovered. Waiting for service scan to be done...");
-        m_foundHeartRateService = true;
-   }
+
+void Qt6Rockchip::Bluetooth::BluetoothHandler::connected()
+{
+    qInfo() << "Controller connected. bluetooth services...";
+    keep_alive->stop();
+    controller->discoverServices();
 }
 
-void Qt6Rockchip::Bluetooth::BluetoothHandler::finished()
+void Qt6Rockchip::Bluetooth::BluetoothHandler::disconnected()
 {
-    emit resolve("Service scan done.");
+    qInfo() << "LowEnergy controller bluetooth disconnected";
+    keep_alive->start();
+}
 
+void Qt6Rockchip::Bluetooth::BluetoothHandler::serviceDiscovered(const QBluetoothUuid &gatt)
+{
+    qDebug() <<tr("DeviceInformation service discovered. Waiting for service scan to be done... uuid %0").arg(gatt.toString());
+    if(!gatt.isNull() && gatt==QBluetoothUuid( quint16(0xfff0))){
 
-    // Delete old service if available
-    if (service) {
-        delete service;
-        service = nullptr;
+        if (service) {
+            delete service;
+            service = nullptr;
+        }
+        service = controller->createServiceObject(gatt, this);
+        if (service) {
+            connect(service, &QLowEnergyService::stateChanged,
+                    this, &Qt6Rockchip::Bluetooth::BluetoothHandler::stateChanged);
+            connect(service, &QLowEnergyService::characteristicChanged,
+                    this, &Qt6Rockchip::Bluetooth::BluetoothHandler::characteristicChanged);
+            connect(service, &QLowEnergyService::characteristicRead,
+                    this, &Qt6Rockchip::Bluetooth::BluetoothHandler::characteristicRead);
+            connect(service, &QLowEnergyService::characteristicWritten,
+                    this, &Qt6Rockchip::Bluetooth::BluetoothHandler::characteristicWritten);
+            connect(service, &QLowEnergyService::errorOccurred,
+                    this, &Qt6Rockchip::Bluetooth::BluetoothHandler::execution);
+            service->discoverDetails();
+        } else {
+            qDebug() <<"Heart Rate Service not found.";
+        }
+
     }
 
-    //! [Filter HeartRate service 2]
-    // If heartRateService found, create new service
-    if (m_foundHeartRateService)
-        service = controller->createServiceObject(QBluetoothUuid(QBluetoothUuid::ServiceClassUuid::HeartRate), this);
+}
 
-    if (service) {
-        connect(service, &QLowEnergyService::stateChanged,
-                this, &Qt6Rockchip::Bluetooth::BluetoothHandler::serviceStateChanged);
-        connect(service, &QLowEnergyService::characteristicChanged,
-                this, &Qt6Rockchip::Bluetooth::BluetoothHandler::updateHeartRateValue);
-        connect(service, &QLowEnergyService::descriptorWritten,
-                this, &Qt6Rockchip::Bluetooth::BluetoothHandler::confirmedDescriptorWrite);
-        connect(service, &QLowEnergyService::errorOccurred,
-                this, &Qt6Rockchip::Bluetooth::BluetoothHandler::execution);
+void Qt6Rockchip::Bluetooth::BluetoothHandler::discoveryFinished()
+{
+    qInfo() << "Service scan done.";
 
-        service->discoverDetails();
-    } else {
-        emit resolve("Heart Rate Service not found.");
-    }
+
 }
 
 void Qt6Rockchip::Bluetooth::BluetoothHandler::execution(QLowEnergyService::ServiceError error)
 {
-    emit reject(tr("LowEnergy service error[%0]").arg(error));
+   qDebug() << tr("LowEnergy service error[%0]").arg(error);
 }
 
-void Qt6Rockchip::Bluetooth::BluetoothHandler::serviceStateChanged(QLowEnergyService::ServiceState newState)
+
+void Qt6Rockchip::Bluetooth::BluetoothHandler::stateChanged(QLowEnergyService::ServiceState newState)
 {
-    switch (newState) {
-    case QLowEnergyService::RemoteServiceDiscovering:
-        emit resolve(tr("Discovering services..."));
-        break;
-    case QLowEnergyService::RemoteServiceDiscovered:
-    {
-        emit resolve(tr("Service discovered."));
-        const QLowEnergyCharacteristic hrChar =
-            service->characteristic(QBluetoothUuid(QBluetoothUuid::CharacteristicType::HeartRateMeasurement));
-        if (!hrChar.isValid()) {
-            emit reject("HR Data not found.");
-            break;
+    QLowEnergyCharacteristic  batteryLevel;
+    if(newState==QLowEnergyService::DiscoveringService){
+        qInfo() << "Discovering services...";
+
+    }else if(newState==QLowEnergyService::ServiceDiscovered){
+       qInfo() << "Service discovered.";
+        if(service){
+            characteristics = service->characteristics();
+            for(int i=0; i<characteristics.size(); i++){
+                batteryLevel = characteristics.at(i);
+                if(batteryLevel.isValid()){
+
+                    descriptor = batteryLevel.descriptor(QBluetoothUuid::DescriptorType::ClientCharacteristicConfiguration);
+                    if(descriptor.isValid()){
+                        service->writeDescriptor(descriptor,QByteArray::fromHex("0100"));
+                    }
+                    if (batteryLevel.properties() & QLowEnergyCharacteristic::WriteNoResponse || batteryLevel.properties() & QLowEnergyCharacteristic::Write)
+                    {
+                        qInfo() <<"QLowEnergyCharacteristic::WriteNoResponse";
+                        characteristic = batteryLevel;
+                    }
+                    if(batteryLevel.properties() & QLowEnergyCharacteristic::Read) {
+                        qInfo() << "QLowEnergyCharacteristic::Read";
+                        characteristic = batteryLevel;
+                    }
+                    if(batteryLevel.properties() & QLowEnergyCharacteristic::Notify) {
+                        qInfo() << "QLowEnergyCharacteristic::Notify";
+                        characteristic = batteryLevel;
+                    }
+                }
+
+            }
         }
 
-        notificationDescriptor = hrChar.descriptor(QBluetoothUuid::DescriptorType::ClientCharacteristicConfiguration);
-        if (notificationDescriptor.isValid())
-            service->writeDescriptor(notificationDescriptor, QByteArray::fromHex("0100"));
-
-        break;
+    }else{
+        qDebug() << "nothing for now";
     }
-    default:
-        //nothing for now
-        break;
-    }
-
     emit aliveChanged();
 }
 
-void Qt6Rockchip::Bluetooth::BluetoothHandler::updateHeartRateValue(const QLowEnergyCharacteristic &c,
-                                                                    const QByteArray &value)
+void Qt6Rockchip::Bluetooth::BluetoothHandler::characteristicChanged(const QLowEnergyCharacteristic &info, const QByteArray &value)
 {
-    // ignore any other characteristic change -> shouldn't really happen though
-    if (c.uuid() != QBluetoothUuid(QBluetoothUuid::CharacteristicType::HeartRateMeasurement))
-        return;
-
-    auto data = reinterpret_cast<const quint8 *>(value.constData());
-    quint8 flags = *data;
-
-    //Heart Rate
-    int hrvalue = 0;
-    if (flags & 0x1) // HR 16 bit? otherwise 8 bit
-        hrvalue = static_cast<int>(qFromLittleEndian<quint16>(data[1]));
-    else
-        hrvalue = static_cast<int>(data[1]);
-
+    if(info.isValid() && !value.isNull()){
+        emit transmit(value);
+    }
 
 }
 
-void Qt6Rockchip::Bluetooth::BluetoothHandler::confirmedDescriptorWrite(const QLowEnergyDescriptor &d,
-                                                                        const QByteArray &value)
+void Qt6Rockchip::Bluetooth::BluetoothHandler::characteristicWritten(const QLowEnergyCharacteristic &info, const QByteArray &value)
 {
-    if (d.isValid() && d == notificationDescriptor && value == QByteArray::fromHex("0000")) {
-        //disabled notifications -> assume disconnect intent
-        controller->disconnectFromDevice();
-        delete service;
-        service = nullptr;
+    if (service)
+    {
+        if(characteristic.isValid()){
+            service->writeCharacteristic(characteristic, value, QLowEnergyService::WriteWithResponse);
+        }
     }
 }
+
+
+void Qt6Rockchip::Bluetooth::BluetoothHandler::characteristicRead(const QLowEnergyCharacteristic &info, const QByteArray &value)
+{
+    if(info.isValid() && !value.isEmpty()){
+         qDebug() << info.name()<< value.toStdString();
+    }
+}
+

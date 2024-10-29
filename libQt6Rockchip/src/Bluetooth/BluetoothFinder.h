@@ -18,6 +18,7 @@ class BluetoothFinder : public QObject
     Q_OBJECT
 public:
     explicit BluetoothFinder(QObject *parent = nullptr);
+    QList<QBluetoothDeviceInfo> getBluetoothDeviceInfo();
     void search();
     void cleanup();
 public slots:
@@ -27,12 +28,10 @@ public slots:
 signals:
     void resolve(const QString & loginfo);
     void reject(const QString &logerr);
-    void changed();
-    void discovered(const QBluetoothDeviceInfo &info);
-    void devices(QList<QBluetoothDeviceInfo> devices);
+    void refresh();
 private:
     QBluetoothDeviceDiscoveryAgent *agent;
-    QList<QBluetoothDeviceInfo> list_device;
+    QList<QBluetoothDeviceInfo> listBluetoothDeviceInfo;
 
 };
 }

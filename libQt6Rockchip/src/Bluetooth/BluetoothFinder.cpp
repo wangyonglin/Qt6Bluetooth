@@ -28,6 +28,11 @@ Qt6Rockchip::Bluetooth::BluetoothFinder::BluetoothFinder(QObject *parent)
     // });
 
 }
+
+QList<QBluetoothDeviceInfo> Qt6Rockchip::Bluetooth::BluetoothFinder::getBluetoothDeviceInfo()
+{
+    return listBluetoothDeviceInfo;
+}
 void Qt6Rockchip::Bluetooth::BluetoothFinder::search()
 {
 #if QT_CONFIG(permissions)
@@ -48,7 +53,7 @@ void Qt6Rockchip::Bluetooth::BluetoothFinder::search()
 #endif // QT_CONFIG(permissions)
 
   //  qDeleteAll(list_device);
-    list_device.clear();
+    listBluetoothDeviceInfo.clear();
 
     agent->start(QBluetoothDeviceDiscoveryAgent::LowEnergyMethod);
 
@@ -65,19 +70,17 @@ void Qt6Rockchip::Bluetooth::BluetoothFinder::cleanup()
 void Qt6Rockchip::Bluetooth::BluetoothFinder::deviceDiscovered(const QBluetoothDeviceInfo &device)
 {
     if(device.isValid()){
-        emit discovered(device);
         // If device is LowEnergy-device, add it to the list
         if (device.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration) {
-
-            auto it = std::find_if(list_device.begin(), list_device.end(),
+            auto it = std::find_if(listBluetoothDeviceInfo.begin(), listBluetoothDeviceInfo.end(),
                                    [device](QBluetoothDeviceInfo dev) {
                                        return device.address() == dev.address();
                                    });
-            if (it == list_device.end()) {
-                list_device.append(device);
+            if (it == listBluetoothDeviceInfo.end()) {
+                listBluetoothDeviceInfo.append(device);
             } else {
             }
-            emit changed();
+            emit refresh();
         }
     }
 
@@ -97,6 +100,5 @@ void Qt6Rockchip::Bluetooth::BluetoothFinder::deviceExecution(QBluetoothDeviceDi
 
 void Qt6Rockchip::Bluetooth::BluetoothFinder::deviceFinished()
 {
-    emit resolve("蓝牙适配器扫描结束");
-    emit devices(list_device);
+    qInfo() <<  "蓝牙适配器扫描结束";
 }

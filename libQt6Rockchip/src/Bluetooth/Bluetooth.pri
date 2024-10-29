@@ -1,4 +1,5 @@
 HEADERS += \
+    $$PWD/BluetoothExport.h \
     $$PWD/BluetoothFinder.h \
     $$PWD/BluetoothHandler.h \
     $$PWD/BluetoothService.h
