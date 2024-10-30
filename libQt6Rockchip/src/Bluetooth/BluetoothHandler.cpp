@@ -30,11 +30,8 @@ void Qt6Rockchip::Bluetooth::BluetoothHandler::create(const QBluetoothDeviceInfo
                 this, &Qt6Rockchip::Bluetooth::BluetoothHandler::serviceDiscovered);
         connect(controller, &QLowEnergyController::discoveryFinished,
                 this, &Qt6Rockchip::Bluetooth::BluetoothHandler::discoveryFinished);
-        connect(controller, &QLowEnergyController::errorOccurred, this,
-                [this](QLowEnergyController::Error error) {
-                    Q_UNUSED(error);
-                    qDebug() << "Cannot connect to remote bluetooth device.";
-                });
+        connect(controller, &QLowEnergyController::errorOccurred,
+                this,&Qt6Rockchip::Bluetooth::BluetoothHandler::controllerError);
         connect(controller, &QLowEnergyController::connected,
                 this,&Qt6Rockchip::Bluetooth::BluetoothHandler::connected);
         connect(controller, &QLowEnergyController::disconnected,
@@ -49,6 +46,12 @@ void Qt6Rockchip::Bluetooth::BluetoothHandler::starting(){
 void Qt6Rockchip::Bluetooth::BluetoothHandler::stop()
 {
     controller->disconnectFromDevice();
+}
+
+void Qt6Rockchip::Bluetooth::BluetoothHandler::controllerError(QLowEnergyController::Error newError)
+{
+    Q_UNUSED(newError);
+    qDebug() << "Cannot connect to remote bluetooth device.";
 }
 
 
@@ -86,7 +89,7 @@ void Qt6Rockchip::Bluetooth::BluetoothHandler::serviceDiscovered(const QBluetoot
             connect(service, &QLowEnergyService::characteristicWritten,
                     this, &Qt6Rockchip::Bluetooth::BluetoothHandler::characteristicWritten);
             connect(service, &QLowEnergyService::errorOccurred,
-                    this, &Qt6Rockchip::Bluetooth::BluetoothHandler::execution);
+                    this, &Qt6Rockchip::Bluetooth::BluetoothHandler::serviceError);
             service->discoverDetails();
         } else {
             qDebug() <<"Heart Rate Service not found.";
@@ -103,7 +106,7 @@ void Qt6Rockchip::Bluetooth::BluetoothHandler::discoveryFinished()
 
 }
 
-void Qt6Rockchip::Bluetooth::BluetoothHandler::execution(QLowEnergyService::ServiceError error)
+void Qt6Rockchip::Bluetooth::BluetoothHandler::serviceError(QLowEnergyService::ServiceError error)
 {
    qDebug() << tr("LowEnergy service error[%0]").arg(error);
 }

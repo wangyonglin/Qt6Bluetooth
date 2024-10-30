@@ -36,11 +36,12 @@ signals:
     void transmit(const QByteArray &msg);
     void aliveChanged();
 public slots:
+    void controllerError(QLowEnergyController::Error newError);
     void connected();
     void disconnected();
     void serviceDiscovered(const QBluetoothUuid &newService);
     void discoveryFinished();
-    void execution(QLowEnergyService::ServiceError error);
+    void serviceError(QLowEnergyService::ServiceError error);
     void stateChanged(QLowEnergyService::ServiceState newState);
     void characteristicChanged(const QLowEnergyCharacteristic &info,
                                const QByteArray &value);
