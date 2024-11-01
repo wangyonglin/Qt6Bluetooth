@@ -1,5 +1,5 @@
-#ifndef BLUETOOTHHANDLER_H
-#define BLUETOOTHHANDLER_H
+#ifndef BLUETOOTHSERVICE_H
+#define BLUETOOTHSERVICE_H
 
 #include <QObject>
 #include <QTimer>
@@ -7,35 +7,36 @@
 #include <QLowEnergyController>
 #include <QLowEnergyService>
 #include <QLowEnergyDescriptor>
+#include "BluetoothObject.h"
 
 namespace Qt6Rockchip::Bluetooth {
 
-class BluetoothHandler : public QObject
+class BluetoothService : public BluetoothObject
 {
     Q_OBJECT
+
 public:
-    explicit BluetoothHandler(QObject *parent = nullptr);
-    void create(const QBluetoothDeviceInfo &info);
+    explicit BluetoothService(QObject *parent = nullptr);
+    ~BluetoothService();
+    void Init(const QBluetoothDeviceInfo &remoteDevice);
     void release();
-    void starting();
-    void stop();
+    void connectToDevice();
+    void disconnectFromDevice();
 private:
-    int milliseconds = 3000;
-    QTimer *keep_alive;
+    QBluetoothDeviceInfo remote;
     QLowEnergyController *controller = nullptr;
     QLowEnergyService *service = nullptr;
     QLowEnergyDescriptor descriptor;
-    QBluetoothDeviceInfo localdevice;
     QList<QBluetoothUuid> uuids;
     QBluetoothUuid useuuid;
     QLowEnergyCharacteristic characteristic;
     QList<QLowEnergyCharacteristic> characteristics;
 signals:
-    void resolve(const QString & loginfo);
-    void reject(const QString &logerr);
-    void transmit(const QByteArray &msg);
-    void aliveChanged();
+   // void fetchState(const QBluetoothAddress & remoteAddress,const QLowEnergyController::ControllerState &state);
+    void CharacteristicSignal(const QByteArray &data);
+    void ControllerStateSignal(QLowEnergyController::ControllerState state);
 public slots:
+    void stateChangedController(QLowEnergyController::ControllerState state);
     void controllerError(QLowEnergyController::Error newError);
     void connected();
     void disconnected();
@@ -51,4 +52,4 @@ public slots:
                             const QByteArray &value);
 };
 }
-#endif // BLUETOOTHHANDLER_H
+#endif // BLUETOOTHSERVICE_H

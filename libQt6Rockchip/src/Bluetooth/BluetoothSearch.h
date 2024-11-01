@@ -5,7 +5,7 @@
 #include <QBluetoothDeviceDiscoveryAgent>
 #include <QBluetoothDeviceInfo>
 #include <QTimer>
-
+#include "BluetoothObject.h"
 QT_BEGIN_NAMESPACE
 class QBluetoothDeviceInfo;
 QT_END_NAMESPACE
@@ -13,25 +13,22 @@ QT_END_NAMESPACE
 
 namespace Qt6Rockchip::Bluetooth {
 class DeviceInfo;
-class BluetoothFinder : public QObject
+class BluetoothSearch : public BluetoothObject
 {
     Q_OBJECT
 public:
-    explicit BluetoothFinder(QObject *parent = nullptr);
-    QList<QBluetoothDeviceInfo> getBluetoothDeviceInfo();
+    explicit BluetoothSearch(QObject *parent = nullptr);
+    ~BluetoothSearch();
     void search();
-    void cleanup();
 public slots:
     void deviceDiscovered(const QBluetoothDeviceInfo &info);
     void deviceExecution(QBluetoothDeviceDiscoveryAgent::Error error);
     void deviceFinished();
 signals:
-    void resolve(const QString & loginfo);
-    void reject(const QString &logerr);
-    void refresh();
+    void SearchSignal(const QBluetoothDeviceInfo &info);
 private:
     QBluetoothDeviceDiscoveryAgent *agent;
-    QList<QBluetoothDeviceInfo> listBluetoothDeviceInfo;
+
 
 };
 }

@@ -22,6 +22,10 @@ DISTFILES += \
     README.md \
     include/Qt6Rockchip/Bluetooth/BluetoothService
 
+HEADERS += \
+    include/Qt6Rockchip/Bluetooth/BluetoothItemModel \
+    include/Qt6Rockchip/Bluetooth/BluetoothManager
+
 
 
 

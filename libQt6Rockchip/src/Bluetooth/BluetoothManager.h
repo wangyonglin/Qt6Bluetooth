@@ -1,34 +1,35 @@
-#ifndef BLUETOOTHSERVICE_H
-#define BLUETOOTHSERVICE_H
+#ifndef BLUETOOTHMANAGER_H
+#define BLUETOOTHMANAGER_H
 
-#include <QWidget>
-#include "BluetoothFinder.h"
-#include "BluetoothHandler.h"
+#include "BluetoothObject.h"
+#include "BluetoothSearch.h"
+#include "BluetoothService.h"
 #include "BluetoothExport.h"
 namespace Qt6Rockchip::Bluetooth{
-class QT6ROCKCHIP_BLUETOOTH_EXPORT BluetoothService : public QWidget
+class QT6ROCKCHIP_BLUETOOTH_EXPORT BluetoothManager : public BluetoothObject
 {
     Q_OBJECT
 public:
-    explicit BluetoothService(QWidget *parent = nullptr);
-    ~BluetoothService();
-    void start(const QString & name,int timeout=3);
-
+    explicit BluetoothManager(QObject *parent = nullptr);
+    ~BluetoothManager();
+    void searchBluetooth();
+    void connectBluetooth(const QBluetoothDeviceInfo &selectdevcie);
+    void disconnectBluetooth();
 private:
-    QString devicename;
-    Qt6Rockchip::Bluetooth::BluetoothFinder *bluetoothFinder;
-    Qt6Rockchip::Bluetooth::BluetoothHandler * bluetoothHandler;
+    QTimer *keep_alive;
+    QLowEnergyController::ControllerState state;
+    Qt6Rockchip::Bluetooth::BluetoothSearch *bluetoothSearch;
+    Qt6Rockchip::Bluetooth::BluetoothService * bluetoothService;
 public slots:
-    void resolve(const QString & loginfo);
-    void reject(const QString & logerror);
-    void receive(const QByteArray & msg);
-    void refresh();
-
+    void Keepalive();
 signals:
-    void transmit(const QByteArray & msg);
+    void ControllerStateSignal(const QLowEnergyController::ControllerState &state);
+    void CharacteristichSignal(const QByteArray & data);
+    void SearchSignal(const QBluetoothDeviceInfo &info);
+    void ErrorSignal(const QString & data);
 };
 }
 
 
 
-#endif // BLUETOOTHSERVICE_H
+#endif // BLUETOOTHMANAGER_H

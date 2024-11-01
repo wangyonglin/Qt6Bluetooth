@@ -1,4 +1,4 @@
-#include "BluetoothFinder.h"
+#include "BluetoothSearch.h"
 #include <QBluetoothDeviceDiscoveryAgent>
 #include <QBluetoothDeviceInfo>
 #include <QTimer>
@@ -8,8 +8,8 @@
 #include <QPermissions>
 #endif
 
-Qt6Rockchip::Bluetooth::BluetoothFinder::BluetoothFinder(QObject *parent)
-    :QObject{parent}
+Qt6Rockchip::Bluetooth::BluetoothSearch::BluetoothSearch(QObject *parent)
+    :BluetoothObject{parent}
 {
     agent = new QBluetoothDeviceDiscoveryAgent(this);
 
@@ -17,23 +17,23 @@ Qt6Rockchip::Bluetooth::BluetoothFinder::BluetoothFinder(QObject *parent)
     agent->setLowEnergyDiscoveryTimeout(6000);
 
     connect(agent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered,
-            this, &Qt6Rockchip::Bluetooth::BluetoothFinder::deviceDiscovered);
+            this, &Qt6Rockchip::Bluetooth::BluetoothSearch::deviceDiscovered);
     connect(agent, &QBluetoothDeviceDiscoveryAgent::errorOccurred,
-            this, &Qt6Rockchip::Bluetooth::BluetoothFinder::deviceExecution);
+            this, &Qt6Rockchip::Bluetooth::BluetoothSearch::deviceExecution);
     connect(agent, &QBluetoothDeviceDiscoveryAgent::finished,
-            this, &Qt6Rockchip::Bluetooth::BluetoothFinder::deviceFinished);
-    // connect(&agentTimeout, &QTimer::timeout, [this](){
-    //     emit reject(QString::fromLocal8Bit("蓝牙控制器连接设备超时！"));
-    //     stop();
-    // });
+            this, &Qt6Rockchip::Bluetooth::BluetoothSearch::deviceFinished);
 
 }
 
-QList<QBluetoothDeviceInfo> Qt6Rockchip::Bluetooth::BluetoothFinder::getBluetoothDeviceInfo()
+Qt6Rockchip::Bluetooth::BluetoothSearch::~BluetoothSearch()
 {
-    return listBluetoothDeviceInfo;
+    if(agent->isActive()){
+        agent->stop();
+    }
 }
-void Qt6Rockchip::Bluetooth::BluetoothFinder::search()
+
+
+void Qt6Rockchip::Bluetooth::BluetoothSearch::search()
 {
 #if QT_CONFIG(permissions)
     //! [permissions]
@@ -41,10 +41,10 @@ void Qt6Rockchip::Bluetooth::BluetoothFinder::search()
     permission.setCommunicationModes(QBluetoothPermission::Access);
     switch (qApp->checkPermission(permission)) {
     case Qt::PermissionStatus::Undetermined:
-        qApp->requestPermission(permission, this, &Qt6Rockchip::Bluetooth::BluetoothFinder::search);
+        qApp->requestPermission(permission, this, &Qt6Rockchip::Bluetooth::BluetoothSearch::search);
         return;
     case Qt::PermissionStatus::Denied:
-        emit reject(tr("Bluetooth permissions not granted!"));
+        qDebug() << "Bluetooth permissions not granted!";
         return;
     case Qt::PermissionStatus::Granted:
         break; // proceed to search
@@ -52,53 +52,37 @@ void Qt6Rockchip::Bluetooth::BluetoothFinder::search()
     //! [permissions]
 #endif // QT_CONFIG(permissions)
 
-  //  qDeleteAll(list_device);
-    listBluetoothDeviceInfo.clear();
+    //  qDeleteAll(list_device);
 
+    emit Resolved("bluetooth scan start");
     agent->start(QBluetoothDeviceDiscoveryAgent::LowEnergyMethod);
 
 }
 
-void Qt6Rockchip::Bluetooth::BluetoothFinder::cleanup()
-{
-    if(agent->isActive()){
-        agent->stop();
-    }
 
-}
-
-void Qt6Rockchip::Bluetooth::BluetoothFinder::deviceDiscovered(const QBluetoothDeviceInfo &device)
+void Qt6Rockchip::Bluetooth::BluetoothSearch::deviceDiscovered(const QBluetoothDeviceInfo &info)
 {
-    if(device.isValid()){
-        // If device is LowEnergy-device, add it to the list
-        if (device.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration) {
-            auto it = std::find_if(listBluetoothDeviceInfo.begin(), listBluetoothDeviceInfo.end(),
-                                   [device](QBluetoothDeviceInfo dev) {
-                                       return device.address() == dev.address();
-                                   });
-            if (it == listBluetoothDeviceInfo.end()) {
-                listBluetoothDeviceInfo.append(device);
-            } else {
-            }
-            emit refresh();
+    if( info.isValid()){
+        if (info.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration) {
+            emit Resolved(tr("bluetooth discovered deivce [%0 - %1]").arg(info.name()).arg(info.address().toString()));
+            emit SearchSignal(info);
         }
     }
 
-
 }
 
-void Qt6Rockchip::Bluetooth::BluetoothFinder::deviceExecution(QBluetoothDeviceDiscoveryAgent::Error error)
+void Qt6Rockchip::Bluetooth::BluetoothSearch::deviceExecution(QBluetoothDeviceDiscoveryAgent::Error error)
 {
     if (error == QBluetoothDeviceDiscoveryAgent::PoweredOffError) {
-        emit reject("蓝牙适配器已关闭");
+        emit Rejected("bluetooth power off");
     } else if (error == QBluetoothDeviceDiscoveryAgent::InputOutputError) {
-        emit reject("蓝牙适配器IO错误");
+        emit Rejected("bluetooth input io error");
     } else {
-        emit reject("蓝牙适配器其它错误");
+        emit Rejected("bluetooth other error");
     }
 }
 
-void Qt6Rockchip::Bluetooth::BluetoothFinder::deviceFinished()
+void Qt6Rockchip::Bluetooth::BluetoothSearch::deviceFinished()
 {
-    qInfo() <<  "蓝牙适配器扫描结束";
+   emit Resolved("bluetooth scan end");
 }
