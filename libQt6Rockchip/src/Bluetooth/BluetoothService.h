@@ -1,34 +1,54 @@
-#ifndef BLUETOOTHSERVICE_H
-#define BLUETOOTHSERVICE_H
+#ifndef BLUETOOTHHANDLER_H
+#define BLUETOOTHHANDLER_H
 
-#include <QWidget>
-#include "BluetoothFinder.h"
-#include "BluetoothHandler.h"
-#include "BluetoothExport.h"
-namespace Qt6Rockchip::Bluetooth{
-class QT6ROCKCHIP_BLUETOOTH_EXPORT BluetoothService : public QWidget
+#include <QObject>
+#include <QTimer>
+#include <QBluetoothDeviceInfo>
+#include <QLowEnergyController>
+#include <QLowEnergyService>
+#include <QLowEnergyDescriptor>
+
+namespace Qt6Rockchip::Bluetooth {
+
+class BluetoothHandler : public QObject
 {
     Q_OBJECT
 public:
-    explicit BluetoothService(QWidget *parent = nullptr);
-    ~BluetoothService();
-    void start(const QString & name,int timeout=3);
-
+    explicit BluetoothHandler(QObject *parent = nullptr);
+    void create(const QBluetoothDeviceInfo &info);
+    void release();
+    void starting();
+    void stop();
 private:
-    QString devicename;
-    Qt6Rockchip::Bluetooth::BluetoothFinder *bluetoothFinder;
-    Qt6Rockchip::Bluetooth::BluetoothHandler * bluetoothHandler;
-public slots:
-    void resolve(const QString & loginfo);
-    void reject(const QString & logerror);
-    void receive(const QByteArray & msg);
-    void refresh();
-
+    int milliseconds = 3000;
+    QTimer *keep_alive;
+    QLowEnergyController *controller = nullptr;
+    QLowEnergyService *service = nullptr;
+    QLowEnergyDescriptor descriptor;
+    QBluetoothDeviceInfo localdevice;
+    QList<QBluetoothUuid> uuids;
+    QBluetoothUuid useuuid;
+    QLowEnergyCharacteristic characteristic;
+    QList<QLowEnergyCharacteristic> characteristics;
 signals:
-    void transmit(const QByteArray & msg);
+    void resolve(const QString & loginfo);
+    void reject(const QString &logerr);
+    void transmit(const QByteArray &msg);
+    void aliveChanged();
+public slots:
+    void controllerError(QLowEnergyController::Error newError);
+    void connected();
+    void disconnected();
+    void serviceDiscovered(const QBluetoothUuid &newService);
+    void discoveryFinished();
+    void serviceError(QLowEnergyService::ServiceError error);
+    void stateChanged(QLowEnergyService::ServiceState newState);
+    void characteristicChanged(const QLowEnergyCharacteristic &info,
+                               const QByteArray &value);
+    void characteristicWritten(const QLowEnergyCharacteristic &info,
+                               const QByteArray &value);
+    void characteristicRead(const QLowEnergyCharacteristic &info,
+                            const QByteArray &value);
 };
 }
-
-
-
-#endif // BLUETOOTHSERVICE_H
+#endif // BLUETOOTHHANDLER_H
