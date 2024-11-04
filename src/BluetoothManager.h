@@ -5,8 +5,8 @@
 #include "BluetoothSearch.h"
 #include "BluetoothService.h"
 #include "BluetoothExport.h"
-namespace Qt6Rockchip::Bluetooth{
-class QT6ROCKCHIP_BLUETOOTH_EXPORT BluetoothManager : public BluetoothObject
+namespace QtRockchip::Qt6Bluetooth{
+class QTROCKCHIP_QT6BLUETOOTH_EXPORT BluetoothManager : public BluetoothObject
 {
     Q_OBJECT
 public:
@@ -14,14 +14,12 @@ public:
     ~BluetoothManager();
     void searchBluetooth();
     void connectBluetooth(const QBluetoothDeviceInfo &selectdevcie);
-    void disconnectBluetooth();
+
 private:
-    QTimer *keep_alive;
     QLowEnergyController::ControllerState state;
-    Qt6Rockchip::Bluetooth::BluetoothSearch *bluetoothSearch;
-    Qt6Rockchip::Bluetooth::BluetoothService * bluetoothService;
-public slots:
-    void Keepalive();
+    QtRockchip::Qt6Bluetooth::BluetoothSearch *bluetoothSearch;
+    QtRockchip::Qt6Bluetooth::BluetoothService * bluetoothService;
+
 signals:
     void ControllerStateSignal(const QLowEnergyController::ControllerState &state);
     void CharacteristichSignal(const QByteArray & data);

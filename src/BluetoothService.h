@@ -9,7 +9,7 @@
 #include <QLowEnergyDescriptor>
 #include "BluetoothObject.h"
 
-namespace Qt6Rockchip::Bluetooth {
+namespace QtRockchip::Qt6Bluetooth {
 
 class BluetoothService : public BluetoothObject
 {
@@ -18,12 +18,13 @@ class BluetoothService : public BluetoothObject
 public:
     explicit BluetoothService(QObject *parent = nullptr);
     ~BluetoothService();
-    void Init(const QBluetoothDeviceInfo &remoteDevice);
+    void createCentral(const QBluetoothDeviceInfo &remoteDevice);
     void release();
-    void connectToDevice();
-    void disconnectFromDevice();
+
 private:
-    QBluetoothDeviceInfo remote;
+    QBluetoothDeviceInfo remoteBluetooth;
+    QTimer time;
+    QLowEnergyController::ControllerState remoteState;
     QLowEnergyController *controller = nullptr;
     QLowEnergyService *service = nullptr;
     QLowEnergyDescriptor descriptor;
@@ -36,13 +37,14 @@ signals:
     void CharacteristicSignal(const QByteArray &data);
     void ControllerStateSignal(QLowEnergyController::ControllerState state);
 public slots:
+
     void stateChangedController(QLowEnergyController::ControllerState state);
     void controllerError(QLowEnergyController::Error newError);
     void connected();
     void disconnected();
-    void serviceDiscovered(const QBluetoothUuid &newService);
-    void discoveryFinished();
-    void serviceError(QLowEnergyService::ServiceError error);
+    void createServiceObject(const QBluetoothUuid &newService);
+
+
     void stateChanged(QLowEnergyService::ServiceState newState);
     void characteristicChanged(const QLowEnergyCharacteristic &info,
                                const QByteArray &value);
@@ -50,6 +52,7 @@ public slots:
                                const QByteArray &value);
     void characteristicRead(const QLowEnergyCharacteristic &info,
                             const QByteArray &value);
+    void keepAlive();
 };
 }
 #endif // BLUETOOTHSERVICE_H

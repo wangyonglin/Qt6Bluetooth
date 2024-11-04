@@ -8,7 +8,7 @@
 #include <QPermissions>
 #endif
 
-Qt6Rockchip::Bluetooth::BluetoothSearch::BluetoothSearch(QObject *parent)
+QtRockchip::Qt6Bluetooth::BluetoothSearch::BluetoothSearch(QObject *parent)
     :BluetoothObject{parent}
 {
     agent = new QBluetoothDeviceDiscoveryAgent(this);
@@ -17,15 +17,15 @@ Qt6Rockchip::Bluetooth::BluetoothSearch::BluetoothSearch(QObject *parent)
     agent->setLowEnergyDiscoveryTimeout(6000);
 
     connect(agent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered,
-            this, &Qt6Rockchip::Bluetooth::BluetoothSearch::deviceDiscovered);
+            this, &QtRockchip::Qt6Bluetooth::BluetoothSearch::deviceDiscovered);
     connect(agent, &QBluetoothDeviceDiscoveryAgent::errorOccurred,
-            this, &Qt6Rockchip::Bluetooth::BluetoothSearch::deviceExecution);
+            this, &QtRockchip::Qt6Bluetooth::BluetoothSearch::deviceExecution);
     connect(agent, &QBluetoothDeviceDiscoveryAgent::finished,
-            this, &Qt6Rockchip::Bluetooth::BluetoothSearch::deviceFinished);
+            this, &QtRockchip::Qt6Bluetooth::BluetoothSearch::deviceFinished);
 
 }
 
-Qt6Rockchip::Bluetooth::BluetoothSearch::~BluetoothSearch()
+QtRockchip::Qt6Bluetooth::BluetoothSearch::~BluetoothSearch()
 {
     if(agent->isActive()){
         agent->stop();
@@ -33,7 +33,7 @@ Qt6Rockchip::Bluetooth::BluetoothSearch::~BluetoothSearch()
 }
 
 
-void Qt6Rockchip::Bluetooth::BluetoothSearch::search()
+void QtRockchip::Qt6Bluetooth::BluetoothSearch::search()
 {
 #if QT_CONFIG(permissions)
     //! [permissions]
@@ -41,7 +41,7 @@ void Qt6Rockchip::Bluetooth::BluetoothSearch::search()
     permission.setCommunicationModes(QBluetoothPermission::Access);
     switch (qApp->checkPermission(permission)) {
     case Qt::PermissionStatus::Undetermined:
-        qApp->requestPermission(permission, this, &Qt6Rockchip::Bluetooth::BluetoothSearch::search);
+        qApp->requestPermission(permission, this, &QtRockchip::Qt6Bluetooth::BluetoothSearch::search);
         return;
     case Qt::PermissionStatus::Denied:
         qDebug() << "Bluetooth permissions not granted!";
@@ -60,7 +60,7 @@ void Qt6Rockchip::Bluetooth::BluetoothSearch::search()
 }
 
 
-void Qt6Rockchip::Bluetooth::BluetoothSearch::deviceDiscovered(const QBluetoothDeviceInfo &info)
+void QtRockchip::Qt6Bluetooth::BluetoothSearch::deviceDiscovered(const QBluetoothDeviceInfo &info)
 {
     if( info.isValid()){
         if (info.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration) {
@@ -71,7 +71,7 @@ void Qt6Rockchip::Bluetooth::BluetoothSearch::deviceDiscovered(const QBluetoothD
 
 }
 
-void Qt6Rockchip::Bluetooth::BluetoothSearch::deviceExecution(QBluetoothDeviceDiscoveryAgent::Error error)
+void QtRockchip::Qt6Bluetooth::BluetoothSearch::deviceExecution(QBluetoothDeviceDiscoveryAgent::Error error)
 {
     if (error == QBluetoothDeviceDiscoveryAgent::PoweredOffError) {
         emit Rejected("bluetooth power off");
@@ -82,7 +82,7 @@ void Qt6Rockchip::Bluetooth::BluetoothSearch::deviceExecution(QBluetoothDeviceDi
     }
 }
 
-void Qt6Rockchip::Bluetooth::BluetoothSearch::deviceFinished()
+void QtRockchip::Qt6Bluetooth::BluetoothSearch::deviceFinished()
 {
    emit Resolved("bluetooth scan end");
 }

@@ -2,7 +2,7 @@
 #define BLUETOOTHOBJECT_H
 
 #include <QObject>
-
+namespace QtRockchip::Qt6Bluetooth {
 class BluetoothObject : public QObject
 {
     Q_OBJECT
@@ -13,7 +13,9 @@ public Q_SLOTS:
 signals:
     void Rejected(const QString &bytes);
     void Resolved(const QString &bytes);
-  // executioner
+    // executioner
 };
+}
+
 
 #endif // BLUETOOTHOBJECT_H

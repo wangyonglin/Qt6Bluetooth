@@ -7,8 +7,8 @@
 BluetoothWidget::BluetoothWidget(QWidget *parent)
     : QWidget{parent}
 {
-    bluetoothManager=new Qt6Rockchip::Bluetooth::BluetoothManager (this);
-    bluetoothModel = new  Qt6Rockchip::Bluetooth::BluetoothItemModel(this);
+    bluetoothManager=new QtRockchip::Qt6Bluetooth::BluetoothManager (this);
+    bluetoothModel = new  QtRockchip::Qt6Bluetooth::BluetoothItemModel(this);
 
     editlogger= new QTextEdit;
     editlogger->setFontPointSize(12);
@@ -23,22 +23,22 @@ BluetoothWidget::BluetoothWidget(QWidget *parent)
     QHBoxLayout* bodylayout = new QHBoxLayout;
     QVBoxLayout* clrlayout = new QVBoxLayout;
 
-    connect(bluetoothManager,&Qt6Rockchip::Bluetooth::BluetoothManager::CharacteristichSignal,
+    connect(bluetoothManager,&QtRockchip::Qt6Bluetooth::BluetoothManager::CharacteristichSignal,
             [=](const QString &tybes){
                 qDebug() << "BluetoothManager::CharacteristichSignal" << tybes;
             });
 
-    connect(bluetoothManager,&Qt6Rockchip::Bluetooth::BluetoothManager::ControllerStateSignal,
-            [=](const QLowEnergyController::ControllerState &state){
-                qDebug() << "QLowEnergyController::ControllerState" << state;
-            });
+    // connect(bluetoothManager,&QtRockchip::Qt6Bluetooth::BluetoothManager::ControllerStateSignal,
+    //         [=](const QLowEnergyController::ControllerState &state){
+    //             qDebug() << "QLowEnergyController::ControllerState" << state;
+    //         });
 
-    connect(bluetoothManager,&Qt6Rockchip::Bluetooth::BluetoothManager::SearchSignal,
+    connect(bluetoothManager,&QtRockchip::Qt6Bluetooth::BluetoothManager::SearchSignal,
             [=](const QBluetoothDeviceInfo & info){
         bluetoothModel->push(info);
     });
 
-    connect(bluetoothManager,&Qt6Rockchip::Bluetooth::BluetoothManager::ErrorSignal,
+    connect(bluetoothManager,&QtRockchip::Qt6Bluetooth::BluetoothManager::ErrorSignal,
             this,&BluetoothWidget::logger);
 
     connect(clearButton,&QPushButton::clicked,[=](bool checked){

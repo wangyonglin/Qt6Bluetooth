@@ -2,14 +2,14 @@
 #include "qbluetoothaddress.h"
 #include <QBluetoothDeviceInfo>
 
-Qt6Rockchip::Bluetooth::BluetoothItemModel::BluetoothItemModel(QObject *parent)
+QtRockchip::Qt6Bluetooth::BluetoothItemModel::BluetoothItemModel(QObject *parent)
     : QAbstractItemModel{parent}
 {
 
 
 }
 
-QModelIndex Qt6Rockchip::Bluetooth::BluetoothItemModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex QtRockchip::Qt6Bluetooth::BluetoothItemModel::index(int row, int column, const QModelIndex &parent) const
 {
     if (row > m_dataVector.size() - 1 || row < 0)
         return  QModelIndex();
@@ -18,22 +18,22 @@ QModelIndex Qt6Rockchip::Bluetooth::BluetoothItemModel::index(int row, int colum
     return createIndex(row, column);
 }
 
-QModelIndex Qt6Rockchip::Bluetooth::BluetoothItemModel::parent(const QModelIndex &child) const
+QModelIndex QtRockchip::Qt6Bluetooth::BluetoothItemModel::parent(const QModelIndex &child) const
 {
     return QModelIndex();
 }
 
-int Qt6Rockchip::Bluetooth::BluetoothItemModel::rowCount(const QModelIndex &parent) const
+int QtRockchip::Qt6Bluetooth::BluetoothItemModel::rowCount(const QModelIndex &parent) const
 {
     return m_dataVector.size();
 }
 
-int Qt6Rockchip::Bluetooth::BluetoothItemModel::columnCount(const QModelIndex &parent) const
+int QtRockchip::Qt6Bluetooth::BluetoothItemModel::columnCount(const QModelIndex &parent) const
 {
     return 1;
 }
 
-QVariant Qt6Rockchip::Bluetooth::BluetoothItemModel::data(const QModelIndex &index, int role) const
+QVariant QtRockchip::Qt6Bluetooth::BluetoothItemModel::data(const QModelIndex &index, int role) const
 {
     QVariant rerult;
     if (!index.isValid())//索引是否有效
@@ -64,7 +64,7 @@ QVariant Qt6Rockchip::Bluetooth::BluetoothItemModel::data(const QModelIndex &ind
     return rerult;
 
 }
-void Qt6Rockchip::Bluetooth::BluetoothItemModel:: push(const QBluetoothDeviceInfo &info)
+void QtRockchip::Qt6Bluetooth::BluetoothItemModel:: push(const QBluetoothDeviceInfo &info)
 {
     if(info.isValid()){
         auto it = std::find_if(m_dataVector.begin(), m_dataVector.end(),

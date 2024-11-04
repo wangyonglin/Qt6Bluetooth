@@ -11,7 +11,7 @@ class QBluetoothDeviceInfo;
 QT_END_NAMESPACE
 
 
-namespace Qt6Rockchip::Bluetooth {
+namespace QtRockchip::Qt6Bluetooth {
 class DeviceInfo;
 class BluetoothSearch : public BluetoothObject
 {

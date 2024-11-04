@@ -3,8 +3,8 @@
 
 #include <QWidget>
 #include <QTextEdit>
-#include <Qt6Rockchip/Bluetooth/BluetoothManager>
-#include <Qt6Rockchip/Bluetooth/BluetoothItemModel>
+#include <QtRockchip/Qt6Bluetooth/BluetoothManager>
+#include <QtRockchip/Qt6Bluetooth/BluetoothItemModel>
 class BluetoothWidget : public QWidget
 {
     Q_OBJECT
@@ -13,8 +13,8 @@ public:
 private:
     QStringList bluetoothName;
     QTextEdit *editlogger;
-    Qt6Rockchip::Bluetooth::BluetoothItemModel* bluetoothModel;
-    Qt6Rockchip::Bluetooth::BluetoothManager *bluetoothManager;
+    QtRockchip::Qt6Bluetooth::BluetoothItemModel* bluetoothModel;
+    QtRockchip::Qt6Bluetooth::BluetoothManager *bluetoothManager;
 public Q_SLOTS:
     void logger(const QString & log);
 signals:

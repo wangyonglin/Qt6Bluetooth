@@ -5,8 +5,8 @@
 #include <QAbstractItemModel>
 #include <QBluetoothDeviceInfo>
 #include "BluetoothExport.h"
-namespace Qt6Rockchip::Bluetooth{
-class QT6ROCKCHIP_BLUETOOTH_EXPORT BluetoothItemModel : public QAbstractItemModel
+namespace QtRockchip::Qt6Bluetooth{
+class QTROCKCHIP_QT6BLUETOOTH_EXPORT BluetoothItemModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
