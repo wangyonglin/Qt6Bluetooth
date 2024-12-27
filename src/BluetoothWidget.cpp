@@ -4,7 +4,7 @@
 #include <QVBoxLayout>
 #include <QListView>
 
-BluetoothWidget::BluetoothWidget(QWidget *parent)
+QtRockchip::Qt6Bluetooth::BluetoothWidget::BluetoothWidget(QWidget *parent)
     : QWidget{parent}
 {
     bluetoothManager=new QtRockchip::Qt6Bluetooth::BluetoothManager (this);
@@ -87,7 +87,7 @@ BluetoothWidget::BluetoothWidget(QWidget *parent)
     setLayout(mainlayout);
 }
 
-void BluetoothWidget::logger(const QString &log)
+void QtRockchip::Qt6Bluetooth::BluetoothWidget::logger(const QString &log)
 {
     if(!log.isEmpty()){
         editlogger->append(log);

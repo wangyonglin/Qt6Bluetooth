@@ -26,10 +26,8 @@ linux-g++* {
     DEFINES += CSM_TARGET_LINUX_GL
 }
 INCLUDEPATH += $$PWD/../../include
-HEADERS += \
-    BluetoothWidget.h
+HEADERS +=
 SOURCES += \
-        BluetoothWidget.cpp \
         main.cpp
 
 

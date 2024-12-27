@@ -27,14 +27,16 @@ HEADERS += \
     BluetoothManager.h \
     BluetoothObject.h \
     BluetoothSearch.h \
-    BluetoothService.h
+    BluetoothService.h \
+    BluetoothWidget.h
 
 SOURCES += \
     BluetoothItemModel.cpp \
     BluetoothManager.cpp \
     BluetoothObject.cpp \
     BluetoothSearch.cpp \
-    BluetoothService.cpp
+    BluetoothService.cpp \
+    BluetoothWidget.cpp
 
 
 

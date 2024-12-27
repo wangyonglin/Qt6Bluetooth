@@ -2,13 +2,13 @@
 #include <QBluetoothPermission>
 #include <QMessageBox>
 #include <QVariant>
-#include "BluetoothWidget.h"
+#include <QtRockchip/Qt6Bluetooth/BluetoothWidget>
 int main(int argc, char *argv[])
 {
 
     QApplication app(argc, argv);
 
-    BluetoothWidget widget;
+    QtRockchip::Qt6Bluetooth::BluetoothWidget widget;
     widget.resize(800,600);
     widget.show();
     return app.exec();
